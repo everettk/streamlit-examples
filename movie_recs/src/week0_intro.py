@@ -28,25 +28,33 @@ st.header('Before We Start')
 st.write("""
 Before we start on this project, let's make sure a few things are set up first.
 
-1. Do you have Streamlit installed? If not, instructions are [here](___)
+1. Do you have conda installed? If not, instructions are [here](https://www.anaconda.com/download/)
 2. Do you have Atom installed? If not, download it from [here](https://atom.io/)
 3. Do you have the Atom+Streamlit integration yet? If not, check out the
 **Trying it out** section [here](https://github.com/streamlit/streamlit-atom/pull/1).
+""")
+#TODO: Improve instructions for Atom+Streamlit integration setup.
 
-Though you can use Streamlit with any IDE or text editor, we **strongly**
+st.write("""
+Though you can use Streamlit with any IDE, we **strongly**
 recommend Atom. The remainder of the guide assumes you are using Atom with the
 Streamlit package installed.
-
 """)
-#TODO: fix links above
 
 st.header('How to Use This Guide')
 st.write("""
-1. Clone the Streamlit examples repo:
+To use the remainder of this guide,
+
+1. Clone the streamlit-examples repo:
 ```git clone https://github.com/streamlit/streamlit_examples```
-2. Open week1_explore.py in Atom.
-3. Open the Streamlit side pane. Run your code.
-Your screen should now look something like this:
+2. In Atom, open the streamlit-examples directory.
+3. Change directories into:
+```cd streamlit-examples/movies_recs/src```
+4. Run week1_explore.py:
+```python week1_explore.py```
+5. In Atom, open week1_explore.py.
+6. Open the Streamlit side pane (Ctrl+Alt+O). Your screen should
+look something like this:
 """)
 
 from PIL import Image
