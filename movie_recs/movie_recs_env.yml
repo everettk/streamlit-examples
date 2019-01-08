@@ -1,0 +1,12 @@
+name: movie_recs_env
+dependencies:
+- numpy
+- pandas
+- pip
+- python=3.6.0
+- pip:
+  - keras
+  - sklearn
+  - streamlit
+  - tensorflow
+  - uszipcode
