@@ -25,7 +25,7 @@ matrix factorization techniques to generate better recommendations.
 """)
 
 st.info("""
-To see the remainder of this guide, you'll need to check out the repo from
+To unlock the rest of this guide, you'll need to check out the repo from
 Github. See the instructions below for how to do that.
 """)
 
