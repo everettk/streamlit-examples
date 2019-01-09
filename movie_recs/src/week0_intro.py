@@ -24,16 +24,24 @@ matrix factorization techniques to generate better recommendations.
 200X larger. We run our report remotely on an AWS instance with a GPU.
 """)
 
+st.info("""
+To see the remainder of this guide, you'll need to check out the repo from
+Github. See the instructions below for how to do that.
+""")
+
 st.header('Before We Start')
 st.write("""
 Before we start on this project, let's make sure a few things are set up first.
 
 1. Do you have conda installed? If not, instructions are [here](https://www.anaconda.com/download/)
 2. Do you have Atom installed? If not, download it from [here](https://atom.io/)
-3. Do you have the Atom+Streamlit integration yet? If not, check out the
-**Trying it out** section [here](https://github.com/streamlit/streamlit-atom/pull/1).
+3. Do you have the Atom+Streamlit integration yet? If not, in Atom:
+    1. Go to the Atom menu
+    2. Select Preferences
+    3. Select Install
+    4. Type "streamlit"
+    5. Click "Install" on the "streamlit-atom" package
 """)
-#TODO: Improve instructions for Atom+Streamlit integration setup.
 
 st.write("""
 Though you can use Streamlit with any IDE, we **strongly**
@@ -45,6 +53,8 @@ st.header('How to Use This Guide')
 st.write("""
 To use the remainder of this guide,
 
+0. Make sure you have conda, atom, and the atom+streamlit integration (see the
+**Before We Start** section above).
 1. Clone the streamlit-examples repo:
 ```git clone https://github.com/streamlit/streamlit-examples```
 2. In Atom, open the streamlit-examples directory.
@@ -62,5 +72,5 @@ look something like this:
 """)
 
 from PIL import Image
-image = Image.open("../Static/week1-screenshot.png")
+image = Image.open("../static/week1-screenshot.png")
 st.image(image, caption='Streamlit in Atom Screenshot', use_column_width=True)
