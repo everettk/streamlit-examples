@@ -1,20 +1,14 @@
 import numpy as np
 import pandas as pd
-from sklearn import model_selection as ms
-from sklearn.metrics import mean_squared_error as rmse
-from scipy.sparse.linalg import svds
-from scipy.sparse import coo_matrix
-from sklearn.decomposition import TruncatedSVD
-from sklearn.metrics.pairwise import cosine_similarity
-import sys
 import streamlit as st
+from sklearn.metrics.pairwise import cosine_similarity
 
-data_cols = ['user_id', 'item_id', 'rating', 'timestamp']
-item_cols = ['movie_id','movie_title','release_date', 'video_release_date','IMDb_URL','unknown','Action','Adventure','Animation','Childrens','Comedy','Crime','Documentary','Drama','Fantasy','Film-Noir','Horror','Musical','Mystery','Romance ','Sci-Fi','Thriller','War' ,'Western']
 user_cols = ['user_id','age','gender','occupation','zip_code']
+movie_cols = ['movie_id','movie_title','release_date', 'video_release_date','IMDb_URL','unknown','Action','Adventure','Animation','Childrens','Comedy','Crime','Documentary','Drama','Fantasy','Film-Noir','Horror','Musical','Mystery','Romance ','Sci-Fi','Thriller','War' ,'Western']
+rating_cols = ['user_id', 'item_id', 'rating', 'timestamp']
 users = pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
-movies = pd.read_csv('../data/ml-100k/u.item', sep='|', names=item_cols, encoding='latin-1')
-ratings = pd.read_csv('../data/ml-100k/u.data', sep='\t', names=data_cols, encoding='latin-1')
+movies = pd.read_csv('../data/ml-100k/u.item', sep='|', names=movie_cols, encoding='latin-1')
+ratings = pd.read_csv('../data/ml-100k/u.data', sep='\t', names=rating_cols, encoding='latin-1')
 
 st.title('Recommendation System v0')
 st.write("""
@@ -22,9 +16,9 @@ The recommended process for a machine learning project is similar to the process
 of creating a car. For example, we start by building out a skateboard (the
 minimum viable product) and then transition to a more complex model every
 week (week 2: a scooter, week 3: a bike, etc) until ultimately we have a
-car/motorcycle at the end of week 4. This will ensure that your success at
-Insight because even if the final car is incomplete, you will still have a
-working end-to-end deliverable.
+car/motorcycle at the end of week 4. This will ensure your success at Insight
+because even if the final car is incomplete, you will still have a working
+end-to-end deliverable.
 
 In that spirit, in this section we build a very simple recommendation system,
 using cosine similarity between users. We simply define a user, find
@@ -47,9 +41,9 @@ with st.echo():
         location = '90000'
 
 st.write("""
-We also specify weights for each variable. Right now we are weighing each
-variable equally. Later, we can adjust these weights to tune the
-recommendations.
+We also specify weights for each variable. For the purposes of this guide, we
+are weighing each variable equally. Later, we can adjust these weights to tune
+the recommendations.
 """)
 with st.echo():
     weight_age = 0.25
@@ -79,20 +73,22 @@ st.subheader('Data Preprocessing')
 st.write("""
 Next, we convert all the categorical variables in the users dataframe into
 dummy/indicator variables. This allows us to then weigh each variable
-according to the input weights. You can check out the underlying code <HERE> to
-see the definitions of nearest_5years and nearest_region).
+according to the input weights.
 """)
-#TODO: add link above
 
-with st.echo():
-    def users_weighted(users, weight_gender, weight_job, weight_age, weight_zip):
-        A = weight_gender * pd.get_dummies(users.gender)
-        B = weight_job * pd.get_dummies(users.occupation)
-        C = weight_age * pd.get_dummies(users['age'].apply(nearest_5years))
-        D = weight_zip * pd.get_dummies(users['zip_code'].apply(nearest_region))
-        return pd.concat([A,B,C,D], axis = 1)
+def users_weighted(users, weight_gender, weight_job, weight_age, weight_zip):
+    A = weight_gender * pd.get_dummies(users.gender)
+    B = weight_job * pd.get_dummies(users.occupation)
+    C = weight_age * pd.get_dummies(users['age'].apply(nearest_5years))
+    D = weight_zip * pd.get_dummies(users['zip_code'].apply(nearest_region))
+    return pd.concat([A,B,C,D], axis = 1)
 
-    users_weighted = users_weighted(users, weight_gender, weight_job, weight_age, weight_zip)
+users_weighted = users_weighted(
+    users, \
+    weight_gender, \
+    weight_job, \
+    weight_age, \
+    weight_zip)
 
 st.write('Here is what the users dataframe looks like before conversion:')
 st.write(users)
@@ -156,7 +152,7 @@ with st.echo():
 
 st.write("""
 Awesome! We now have an end-to-end movie recommendation system! Feel free to
-check out the code <HERE> and play with it. Clearly, this is a fairly naive
+modify the code and play with it. Clearly, this is a fairly naive
 approach but now we have a baseline from which we can improve.
 
 One of the problems with this approach is due to the fact that the data we have
@@ -164,8 +160,3 @@ is very sparse. We do not know the rating for most (user, movie) pairs. In the
 next part of this tutorial, we explore approaches where we address this problem
 among others.
 """)
-
-#TODO: is it just the popular movies and how often does it not have enough common movies to give us recs!
-
-#TODO: you learn that the data is very sparse: for administrator e.g. there are only 2 movies in common
-# with rating above 4.
