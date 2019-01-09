@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from scipy.sparse.linalg import svds
-from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from streamlit.Chart import Chart
@@ -251,7 +250,7 @@ class MyCallback(keras.callbacks.Callback):
             dot="false", y_axis_id='mse_axis')
         return st.DeltaConnection.get_connection().get_delta_generator()._native_chart(epoch_chart)
 
-#@st.cache
+@st.cache
 def adam_predictions(x_train, x_test):
     n_latent_factors = 3
     movie_input = keras.layers.Input(shape=[1],name='Item')
@@ -309,14 +308,44 @@ def filled_matrix():
     df_all_rate.columns = ['user_id', 'item_id','rating']
     return df_all_rate
 
-filled_matrix = filled_matrix()
+all_ratings = filled_matrix()
 
 # # -----------------------------------------------------------------------------
 
 st.subheader('Making Recommendations from Filled Matrix')
 
-#
-# st.write("Do we get here immediately?")
-#
-# st.header('Recommendations from a filled matrix')
-# #TODO: clean up cosine similarity code & getting recs so that it's easy to switch out!
+st.write("""
+The first thing we do here is we take our week1_explore.py code and organize it
+into a clean function that can take any set of ratings and information about a
+user and return a set of recommended movies.
+""")
+
+st.info("""
+Check out recommendations.py, and when you're ready uncomment the next
+section to see how we can grab new and improved recommendations!
+""")
+
+# # -----------------------------------------------------------------------------
+
+st.subheader('Recommendations before and after')
+
+with st.echo():
+    import recommendations as r
+    gender = 'F'
+    occ = 'scientist'
+    age = 25
+    loc = '90000'
+    recs_before = r.get_recs(users, ratings, gender, occ, age, loc)
+    recs_after = r.get_recs(users, all_ratings, gender, occ, age, loc)
+
+    st.write(movies['movie_title'].loc[recs_before[0:5]])
+    st.write(movies['movie_title'].loc[recs_after[0:5]])
+
+st.info("""
+Much better, right?! Try out different user profiles to play with our
+recommendation system.
+""")
+st.info("""
+See week4_run_at_scale.py to learn how we can run this on a larger
+dataset on AWS.
+""")
