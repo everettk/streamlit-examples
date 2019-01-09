@@ -46,14 +46,18 @@ st.write("""
 To use the remainder of this guide,
 
 1. Clone the streamlit-examples repo:
-```git clone https://github.com/streamlit/streamlit_examples```
+```git clone https://github.com/streamlit/streamlit-examples```
 2. In Atom, open the streamlit-examples directory.
-3. Change directories into:
+3. In your terminal, open the streamlit-examples directory, and run:
+```conda env create -f movie_recs_env.yml```
+4. Next, activate that environment with:
+```conda activate movie_recs_env```
+5. Change directories into:
 ```cd streamlit-examples/movies_recs/src```
-4. Run week1_explore.py:
+6. Run week1_explore.py:
 ```python week1_explore.py```
-5. In Atom, open week1_explore.py.
-6. Open the Streamlit side pane (Ctrl+Alt+O). Your screen should
+7. In Atom, open week1_explore.py.
+8. Open the Streamlit side pane (Ctrl+Alt+O). Your screen should
 look something like this:
 """)
 

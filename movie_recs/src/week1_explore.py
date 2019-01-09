@@ -3,37 +3,31 @@ import numpy as np
 import pandas as pd
 
 st.title('Exploring Data with Streamlit')
+
 st.write("""
 When working with a new dataset, it's important to explore and understand it.
-Here we walk you through how we do this with the MovieLens dataset.
+Here we walk you through how we do this with the MovieLens dataset. To follow
+this guide, simply follow the instructions in the blue boxes step-by-step.
+Most of the time, this will involve uncommenting code section-by-section.
 
-We begin by importing a few libraries, and examining the Users table.
-You may notice the @st.cache line above the get_users() function. This makes it
-so that
+We begin by importing a few libraries (above), and examining the Users table.
 """)
 
 st.info("""
-1. Uncomment the next section and save. This will update the reporton the side.
+1. Uncomment the next section (i.e. up to the dashed line). Save your code --
+Streamlit runs on save. If this doesn't work, click on the report-pane and press
+'r' to rerun.
 """)
 
-with st.echo():
-    import streamlit as st
-    import numpy as np
-    import pandas as pd
+def get_users():
+    user_cols = ['user_id','age','gender','occupation','zip_code']
+    return pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
 
-    @st.cache
-    def get_users():
-        user_cols = ['user_id','age','gender','occupation','zip_code']
-        return pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
+users = get_users()
+st.subheader('Raw Data: users')
+st.write(users)
 
-    users = get_users()
-    st.subheader('Raw Data: users')
-    st.write(users)
-
-#TODO: finish the sentence below
 st.write("""
-You may have noticed the @st.cache line
-
 Now that we see the Users table. There are natural questions we will
 want to ask, e.g.
 - how many users are there?
@@ -43,10 +37,13 @@ want to ask, e.g.
 - where do the users live?
 """)
 
-st.write("""
-Let's start with the easiest question first.
+st.info("""
+2. Next up, we learn how to build vega lite charts with Streamlit. Uncomment the
+next section see a few examples!
 """)
+# -----------------------------------------------------------------------------
 
+st.write("Let's start with the easiest question first.")
 st.subheader('How many users are there?')
 st.write('Number of users: %s' % len(users))
 
@@ -91,33 +88,97 @@ st.vega_lite_chart(users, {
 
 st.subheader('Where do the users live?')
 st.write("""
-We could build a histogram of the zipcode distribution, but unless you *really*
-know your zipcodes, it would be difficult to make sense of.
-
-It would be much more informative to plot the users on a map. We can do this,
-but first we need to convert the zipcodes into latitudes and longitudes.
+To answer this question, we need to plot the users on a map. Streamlit has
+support for deck gl charts, but for that we need the latitude and longitude.
+We currently only have zipcodes. How do we convert?
+We found a [libary](https://pypi.org/project/uszipcode/) that can do this. Let's
+try it on a few examples.
 """)
 
 with st.echo():
     from uszipcode import SearchEngine
     search = SearchEngine(simple_zipcode=True)
-    users['lat'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lat )
-    users['lon'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lng )
-    st.write(users)
 
-# TODO: the points on the map are pretty far apart - so how do i have the map zoomed out enough but with the dots still visible?
-# TODO: this could be a cool narrative point where we discover that they are far apart AND there aren't that many duplicated zipcodes
-# TODO: I had to play with the getRadius & zoom levels to make it look right -- that was a cool iterative process that would have been nice if run-on-save worked 100%!
-
-st.write("""
-Now, we can draw this on a map! We do this as follows:
+st.info("""
+3. Uncomment the next section to try out the by_zipcode() function on a specific
+zipcode. Replace 94612 with your own zipcode!
 """)
+# -----------------------------------------------------------------------------
 
-with st.echo():
-    st.deck_gl_chart(
+# st.write("Let's try our SearchEngine on a specific zipcode.")
+# st.write(search.by_zipcode(94612))
+#
+# st.write("""
+# Cool! `by_zipcode` gives us a lot of information about the zipcode! We just need
+# two fields: `lat` and `lng`.
+# """)
+#
+# st.info("""
+# 3a. We don't need this in our final result, so comment out this section,
+# and uncomment the next to see how we can add the necessary columns to our users
+# dataframe.
+# """)
+
+# -----------------------------------------------------------------------------
+
+users['lat'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lat )
+users['lon'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lng )
+st.write(users)
+
+st.info("""
+4. Great. Check out those beautiful lat & lon columns! Let's put this on a map.
+Uncomment the next section.
+""")
+# -----------------------------------------------------------------------------
+
+# st.deck_gl_chart(
+#     layers=[{
+#         'type': 'ScatterplotLayer',
+#         'data': users
+#     }]
+# )
+#
+# st.write("""
+# Ummm... where's our data? Are we zoomed too far out? Take a look at the
+# first user in the table above. His zip_code is 85711. Look this zipcode up on
+# Google Maps & see if you can zoom in to see any datapoints in that area. (Hint:
+# you should be able to see a few red dots if you zoom in enough).
+# """)
+#
+# st.info("""
+# 4a. Comment out this section and uncomment the next section.
+# """)
+
+# -----------------------------------------------------------------------------
+
+# st.write("""
+# We've now centered the map around the latitude and longitude of our first user.
+# However, we still can't see the points on the map.
+# """)
+#
+# st.deck_gl_chart(
+#         viewport={
+#             'latitude': 32,
+#             'longitude': -110,
+#             'zoom': 3
+#         },
+#         layers=[{
+#             'type': 'ScatterplotLayer',
+#             'data': users
+#         }]
+#     )
+#
+# st.info("""
+# 4b. Let's draw our points with a larger radius (so that we can see them).
+# Comment out this section and uncomment the next.
+# """)
+
+# -----------------------------------------------------------------------------
+
+st.deck_gl_chart(
         viewport={
-            'latitude': 35,
-            'longitude': -100,
+            'latitude': 32,
+            'longitude': -110,
             'zoom': 3
         },
         layers=[{
@@ -127,6 +188,19 @@ with st.echo():
             'getRadius': 1000
         }]
     )
+
+st.info("""
+5. Almost done ... feel free to play with the viewport above to center the map
+a little better. Once you're done, uncomment the next section.
+""")
+# -----------------------------------------------------------------------------
+
+st.info("""
+6. Uncomment the remainder of this file to see how we explore the other parts
+of this dataset. Enjoy!
+""")
+
+# -----------------------------------------------------------------------------
 
 st.write("""
 There are many other ways in which we can explore the Users table.
@@ -152,7 +226,6 @@ st.write('Number of movies: %s' % len(movies))
 st.subheader('How does the genre breakdown look?')
 genre_cols = ['Action','Adventure','Animation','Childrens','Comedy','Crime','Documentary','Drama','Fantasy','Film-Noir','Horror','Musical','Mystery','Romance','Sci-Fi','Thriller','War' ,'Western']
 movie_genres = pd.DataFrame(movies, columns=genre_cols)
-#st.write(item_genres)
 
 genre_counts = movie_genres.sum()
 genre_counts = genre_counts.reset_index()
@@ -168,7 +241,6 @@ st.vega_lite_chart(genre_counts, {
 
     },
 })
-
 
 st.header('Ratings')
 rating_cols = ['user_id', 'item_id', 'rating', 'timestamp']
@@ -208,5 +280,6 @@ st.vega_lite_chart(ratings_per_user, {
 })
 # TODO: clean up imports in each file
 # TODO: make sure it works with python 2.7
-# TODO: how do we show off the interactive, iterative nature of working with streamlit?
+
+st.info("Check out week2_rec_v0.py for the next part of this guide.")
 # TODO: link to the next part of the tutorial
