@@ -58,13 +58,15 @@ To use the remainder of this guide,
 1. Clone the streamlit-examples repo:
 ```git clone https://github.com/streamlit/streamlit-examples```
 2. In Atom, open the streamlit-examples directory.
-3. In your terminal, open the streamlit-examples directory, and run:
+3. In your terminal, open the streamlit-examples directory, then change into:
+```cd movies_recs```
+4. In this directory, create the conda environment:
 ```conda env create -f movie_recs_env.yml```
-4. Next, activate that environment with:
+5. Next, activate that environment with:
 ```conda activate movie_recs_env```
-5. Change directories into:
-```cd streamlit-examples/movies_recs/src```
-6. Run week1_explore.py:
+6. Change into the `src` directory:
+```cd src```
+7. Run `week1_explore.py`:
 ```python week1_explore.py```
 7. In Atom, open week1_explore.py.
 8. Open the Streamlit side pane (Ctrl+Alt+O). Your screen should

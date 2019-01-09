@@ -40,7 +40,7 @@ and has outperformed other ML algorithms for predicting ratings.
 
 """)
 
-st.header('The Tale of 2 Prediction Techniques')
+st.header('A Tale of 2 Prediction Techniques')
 st.subheader('Preparing the train & test data')
 st.write("""
 First we need to split our data into a training and testing. We also capture the
@@ -251,7 +251,7 @@ class MyCallback(keras.callbacks.Callback):
             dot="false", y_axis_id='mse_axis')
         return st.DeltaConnection.get_connection().get_delta_generator()._native_chart(epoch_chart)
 
-@st.cache
+#@st.cache
 def adam_predictions(x_train, x_test):
     n_latent_factors = 3
     movie_input = keras.layers.Input(shape=[1],name='Item')
