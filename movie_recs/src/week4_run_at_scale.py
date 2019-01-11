@@ -1,3 +1,6 @@
+# The published output of this file currently lives here:
+#
+
 import keras
 import math
 import numpy as np
@@ -10,6 +13,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from streamlit.Chart import Chart
 from zipfile import ZipFile
+
+interactive_mode = False
 
 st.title('Run at scale')
 st.write("""
@@ -160,3 +165,14 @@ adam_preds, model = adam_predictions(x_train, x_test)
 st.write('**Keras Adam Predictions**')
 st.write(adam_preds)
 st.write('**MSE for Keras Adam Prediction**: %s' % mean_squared_error(y_true, adam_preds))
+
+st.write("""
+Congratulations! You've now finished the final part of this project!
+""")
+st.balloons()
+
+if not interactive_mode:
+    st.write("""
+    *Viewing this online? You can check out the underlying code
+    [here](https://github.com/streamlit/streamlit-examples/blob/master/movie_recs/src/week4_run_at_scale.py).*
+    """)
