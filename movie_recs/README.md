@@ -1,20 +1,26 @@
-# movie_recs
-In this project, we build a movie recommendation system together. To follow
-along, please start (here)[www.link-goes-here].
+# Movie Recommendation with Streamlit
 
-To start (only the very first time):
+In this guide, we walk you through the lifecycle of an Insight ML project. You
+can think of this guide as a "making-of" Amber Robert’s
+[Project Orient](https://github.com/AstronomerAmber/Project-Orient).
+Together, we will build a movie recommendation system using the
+[MovieLens](https://grouplens.org/datasets/movielens/) dataset.
 
-```conda env create -f movie_recs_env.yml```
+The project is broken into four parts, which correspond roughly to the weeks of
+an Insight session.
 
-From then on:
+1. **Exploring Data with Streamlit** - to better understand what we're working
+with, we slice and dice and explore the MovieLens dataset.
+2. **Recommendation System v0** - we build a naive recommendation system
+end-to-end.
+3. **Iterating on our recommendation system** - we experiment with two different
+matrix factorization techniques to generate better recommendations.
+4. **Running at scale** - we take our algorithm and scale it up! This time we
+run it over a dataset that is 200X larger than in week 3!
 
-```conda activate movie_recs_env```
+## To Get Started
+1. In your terminal, run the following command from the `streamlit-examples` directory:
 
-If you make changes to movie_recs_env.yml (with movie_recs_env activated):
+```atom . src/week1_explore.py```
 
-```conda env update movie_recs_env -f=movie_recs_env.yml```
-
-To start:
-
-```cd src```
-```python week0_intro.py```
+2. In Atom, press `ctrl+alt+r` to run the report.
