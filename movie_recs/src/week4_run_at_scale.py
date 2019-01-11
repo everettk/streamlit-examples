@@ -80,9 +80,9 @@ n_users, n_movies = len(ratings.user_id.unique()), len(ratings.item_id.unique())
 
 
 @st.cache
-def split():
+def split(ratings):
     return train_test_split(ratings, test_size=0.2)
-x_train, x_test = split()
+x_train, x_test = split(ratings)
 y_true = x_test.rating
 
 class MyCallback(keras.callbacks.Callback):
