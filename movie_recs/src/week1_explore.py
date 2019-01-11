@@ -1,3 +1,6 @@
+# The published output of this file currently lives here:
+# http://share.streamlit.io/0.23.0-2EMF1/index.html?id=F5rVwqPj43bt4bbdLnPua5
+
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -22,7 +25,6 @@ if interactive_mode:
     (if you're on linux).
     """)
 
-if interactive_mode:
     st.info("""
     1. Uncomment the next section (i.e. up to the dashed line) and save your
     code. Streamlit runs on save. If this doesn't work, click on the report-pane
@@ -312,10 +314,13 @@ if interactive_mode:
 #     },
 # })
 #
-# st.info("Check out week2_rec_v0.py for the next part of this guide.")
+# st.write("""
+# Check out [week2_rec_v0.py](https://github.com/streamlit/streamlit-examples/blob/master/movie_recs/src/week2_rec_v0.py)
+# for the next part of this guide.
+# """)
 #
 # if not interactive_mode:
 #     st.write("""
-#     *If you're viewing this report online, you can check out the underlying code
+#     *Viewing this online? You can check out the underlying code
 #     [here](https://github.com/streamlit/streamlit-examples/blob/master/movie_recs/src/week1_explore.py).*
 #     """)
