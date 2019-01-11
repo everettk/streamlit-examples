@@ -8,16 +8,19 @@ st.title('Exploring Data with Streamlit')
 st.write("""
 When working with a new dataset, it's important to explore and understand it.
 Here we walk you through how we do this with the MovieLens dataset.
-
-To follow this guide step-by-step (*recommended*), in an interactive way,
-simply follow the instructions in the blue boxes.
-
-If you'd rather see the whole guide instantly: change the line at the top of
-this file to: `interactive_mode = False`
-and then uncomment *all* the lines below. You can uncomment multiple lines by
-selecting all of them and then pressing `⌘ + /` (if you're on mac) or `ctrl + /`
-(if you're on linux).
 """)
+
+if interactive_mode:
+    st.write("""
+    To follow this guide step-by-step (*recommended*), in an interactive way,
+    simply follow the instructions in the blue boxes.
+
+    If you'd rather see the whole guide instantly: change the line at the top of
+    this file to: `interactive_mode = False`
+    and then uncomment *all* the lines below. You can uncomment multiple lines by
+    selecting all of them and then pressing `⌘ + /` (if you're on mac) or `ctrl + /`
+    (if you're on linux).
+    """)
 
 if interactive_mode:
     st.info("""
@@ -35,11 +38,9 @@ if interactive_mode:
 #     import pandas as pd
 #     import streamlit as st
 #
-#     def get_users():
-#         user_cols = ['user_id','age','gender','occupation','zip_code']
-#         return pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
+#     user_cols = ['user_id','age','gender','occupation','zip_code']
+#     users = pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
 #
-#     users = get_users()
 #     st.subheader('Raw Data: users')
 #     st.write(users)
 #
@@ -55,11 +56,11 @@ if interactive_mode:
 #
 # if interactive_mode:
 #     st.info("""
-#     2. Next up, we learn how to build vega lite charts with Streamlit. Uncomment
+#     2. Next up, we learn how to build Vega-Lite charts with Streamlit. Uncomment
 #     the next section see a few examples!
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
 #
 # st.write("Let's start with the easiest question first.")
 # st.subheader('How many users are there?')
@@ -68,7 +69,7 @@ if interactive_mode:
 # st.subheader('How old do the users tend to be?')
 # st.write("""
 # To answer this question, let's build a bar chart representing the distribution
-# of ages across the users. We can do this with a Vega Lite chart as follows.
+# of ages across the users. We can do this with a Vega-Lite chart as follows.
 # """)
 #
 # with st.echo():
@@ -107,10 +108,9 @@ if interactive_mode:
 # st.subheader('Where do the users live?')
 # st.write("""
 # To answer this question, we need to plot the users on a map. Streamlit has
-# support for deck gl charts, but for that we need the latitude and longitude.
+# support for deck.gl charts, but for that we need the latitude and longitude.
 # We currently only have zipcodes. How do we convert?
-# We found a [libary](https://pypi.org/project/uszipcode/) that can do this. Let's
-# try it on a few examples.
+# We found a [libary](https://pypi.org/project/uszipcode/) that can do this.
 # """)
 #
 # with st.echo():
@@ -119,11 +119,12 @@ if interactive_mode:
 #
 # if interactive_mode:
 #     st.info("""
-#     3. Uncomment the next section to try the by_zipcode() function on a specific
-#     zipcode. Replace 94612 with your own zipcode!
+#     3. Uncomment the next section to try the uszipcode's by_zipcode()
+#     functionality on a specific zipcode. Replace 94612 with your own zipcode!
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
+#
 # if interactive_mode:
 #     st.write("Let's try our SearchEngine on a specific zipcode.")
 #     st.text(search.by_zipcode(94612))
@@ -135,15 +136,21 @@ if interactive_mode:
 #
 #     st.info("""
 #     3a. We don't need this in our final result, so comment out this section,
-#     and uncomment the next to see how we can add the necessary columns to our users
-#     dataframe.
+#     and uncomment the next to see how we can add the necessary columns to our
+#     users dataframe.
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
 #
-# users['lat'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lat )
-# users['lon'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lng )
-# st.write(users)
+# st.write("""
+# We use the ```by_zipcode()``` function to add `lat` & `lon` columns to our
+# `users` dataframe.
+# """)
+#
+# with st.echo():
+#     users['lat'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lat )
+#     users['lon'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lng )
+#     st.write(users)
 #
 # if interactive_mode:
 #     st.info("""
@@ -151,7 +158,8 @@ if interactive_mode:
 #     map. Uncomment the next section.
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
+#
 # if interactive_mode:
 #     st.deck_gl_chart(
 #         layers=[{
@@ -161,7 +169,7 @@ if interactive_mode:
 #     )
 #
 #     st.write("""
-#     Ummm... where's our data? Are we zoomed too far out? Take a look at the
+#     Ummm... where's our data? Are we zoomed out too far? Take a look at the
 #     first user in the table above. His zip_code is 85711. Look this zipcode up
 #     on Google Maps & see if you can zoom in to see any datapoints in that area.
 #     (Hint: you should be able to see a few red dots if you zoom in enough).
@@ -171,7 +179,7 @@ if interactive_mode:
 #     4a. Comment out this section and uncomment the next section.
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
 #
 # if interactive_mode:
 #     st.write("""
@@ -196,21 +204,27 @@ if interactive_mode:
 #     Comment out this section and uncomment the next.
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
 #
-# st.deck_gl_chart(
-#         viewport={
-#             'latitude': 32,
-#             'longitude': -110,
-#             'zoom': 3
-#         },
-#         layers=[{
-#             'type': 'ScatterplotLayer',
-#             'data': users,
-#             'radiusScale': 10,
-#             'getRadius': 1000
-#         }]
-#     )
+# st.write("""
+# Tada! Here's our deck.gl map, with a viewport set so that the map is centered
+# around the latitude and longitude of the first user.
+# """)
+#
+# with st.echo():
+#     st.deck_gl_chart(
+#             viewport={
+#                 'latitude': 32,
+#                 'longitude': -110,
+#                 'zoom': 3
+#             },
+#             layers=[{
+#                 'type': 'ScatterplotLayer',
+#                 'data': users,
+#                 'radiusScale': 10,
+#                 'getRadius': 1000
+#             }]
+#         )
 #
 # if interactive_mode:
 #     st.info("""
@@ -218,7 +232,7 @@ if interactive_mode:
 #     map a little better. Once you're done, uncomment the next section.
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
 #
 # if interactive_mode:
 #     st.info("""
@@ -226,15 +240,14 @@ if interactive_mode:
 #     of this dataset. Enjoy!
 #     """)
 #
-# # # -----------------------------------------------------------------------------
+# # -----------------------------------------------------------------------------
 #
 # st.write("""
 # There are many other ways in which we can explore the Users table.
-#
 # But for now, let's take a look at the other tables. We can follow a very
 # similar exploration process for the Movies and Ratings tables too. We don't
 # include explanations for these two tables in this report, but do check out
-# the underlying code here.
+# the underlying code.
 # """)
 #
 # st.header('Movies')
@@ -287,7 +300,7 @@ if interactive_mode:
 #     },
 # })
 #
-# st.subheader('What is the distribution of ratings per user??')
+# st.subheader('What is the distribution of ratings per user?')
 # ratings_per_user = pd.DataFrame(ratings.groupby(['user_id']).size())
 # ratings_per_user = ratings_per_user.rename({0:'ratings_by_user'}, axis=1)
 # st.write(ratings_per_user)
