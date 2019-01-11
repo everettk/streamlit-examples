@@ -1,30 +1,47 @@
-import streamlit as st
 import numpy as np
 import pandas as pd
+import streamlit as st
+
+interactive_mode = True
 
 st.title('Exploring Data with Streamlit')
 st.write("""
 When working with a new dataset, it's important to explore and understand it.
-Here we walk you through how we do this with the MovieLens dataset. To follow
-this guide, simply follow the instructions in the blue boxes step-by-step.
-Most of the time, this will involve uncommenting code section-by-section.
+Here we walk you through how we do this with the MovieLens dataset.
 
-We begin by importing a few libraries (above), and examining the Users table.
+To follow this guide step-by-step (*recommended*), in an interactive way,
+simply follow the instructions in the blue boxes.
+
+If you'd rather see the whole guide instantly: change the line at the top of
+this file to: `interactive_mode = False`
+and then uncomment *all* the lines below. You can uncomment multiple lines by
+selecting all of them and then pressing `⌘ + /` (if you're on mac) or `ctrl + /`
+(if you're on linux).
 """)
 
-st.info("""
-1. Uncomment the next section (i.e. up to the dashed line). Save your code --
-Streamlit runs on save. If this doesn't work, click on the report-pane and press
-'r' to rerun.
-""")
+if interactive_mode:
+    st.info("""
+    1. Uncomment the next section (i.e. up to the dashed line) and save your
+    code. Streamlit runs on save. If this doesn't work, click on the report-pane
+    and press `r` to rerun.
+    """)
 
-# def get_users():
-#     user_cols = ['user_id','age','gender','occupation','zip_code']
-#     return pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
+# st.write("""
+# We begin by importing a few libraries, and examining the Users table.
+# """)
 #
-# users = get_users()
-# st.subheader('Raw Data: users')
-# st.write(users)
+# with st.echo():
+#     import numpy as np
+#     import pandas as pd
+#     import streamlit as st
+#
+#     def get_users():
+#         user_cols = ['user_id','age','gender','occupation','zip_code']
+#         return pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
+#
+#     users = get_users()
+#     st.subheader('Raw Data: users')
+#     st.write(users)
 #
 # st.write("""
 # Now that we see the Users table. There are natural questions we will
@@ -36,10 +53,11 @@ Streamlit runs on save. If this doesn't work, click on the report-pane and press
 # - where do the users live?
 # """)
 #
-# st.info("""
-# 2. Next up, we learn how to build vega lite charts with Streamlit. Uncomment the
-# next section see a few examples!
-# """)
+# if interactive_mode:
+#     st.info("""
+#     2. Next up, we learn how to build vega lite charts with Streamlit. Uncomment
+#     the next section see a few examples!
+#     """)
 #
 # # # -----------------------------------------------------------------------------
 #
@@ -99,26 +117,27 @@ Streamlit runs on save. If this doesn't work, click on the report-pane and press
 #     from uszipcode import SearchEngine
 #     search = SearchEngine(simple_zipcode=True)
 #
-# st.info("""
-# 3. Uncomment the next section to try out the by_zipcode() function on a specific
-# zipcode. Replace 94612 with your own zipcode!
-# """)
+# if interactive_mode:
+#     st.info("""
+#     3. Uncomment the next section to try the by_zipcode() function on a specific
+#     zipcode. Replace 94612 with your own zipcode!
+#     """)
 #
 # # # -----------------------------------------------------------------------------
+# if interactive_mode:
+#     st.write("Let's try our SearchEngine on a specific zipcode.")
+#     st.text(search.by_zipcode(94612))
 #
-# st.write("Let's try our SearchEngine on a specific zipcode.")
-# st.write(search.by_zipcode(94612))
+#     st.write("""
+#     Cool! `by_zipcode` gives us a lot of information about the zipcode! We just
+#     need two fields: `lat` and `lng`.
+#     """)
 #
-# st.write("""
-# Cool! `by_zipcode` gives us a lot of information about the zipcode! We just need
-# two fields: `lat` and `lng`.
-# """)
-#
-# st.info("""
-# 3a. We don't need this in our final result, so comment out this section,
-# and uncomment the next to see how we can add the necessary columns to our users
-# dataframe.
-# """)
+#     st.info("""
+#     3a. We don't need this in our final result, so comment out this section,
+#     and uncomment the next to see how we can add the necessary columns to our users
+#     dataframe.
+#     """)
 #
 # # # -----------------------------------------------------------------------------
 #
@@ -126,54 +145,56 @@ Streamlit runs on save. If this doesn't work, click on the report-pane and press
 # users['lon'] =  users['zip_code'].apply(lambda z : search.by_zipcode(z).lng )
 # st.write(users)
 #
-# st.info("""
-# 4. Great. Check out those beautiful lat & lon columns! Let's put this on a map.
-# Uncomment the next section.
-# """)
+# if interactive_mode:
+#     st.info("""
+#     4. Great. Check out those beautiful lat & lon columns! Let's put this on a
+#     map. Uncomment the next section.
+#     """)
 #
 # # # -----------------------------------------------------------------------------
-#
-# st.deck_gl_chart(
-#     layers=[{
-#         'type': 'ScatterplotLayer',
-#         'data': users
-#     }]
-# )
-#
-# st.write("""
-# Ummm... where's our data? Are we zoomed too far out? Take a look at the
-# first user in the table above. His zip_code is 85711. Look this zipcode up on
-# Google Maps & see if you can zoom in to see any datapoints in that area. (Hint:
-# you should be able to see a few red dots if you zoom in enough).
-# """)
-#
-# st.info("""
-# 4a. Comment out this section and uncomment the next section.
-# """)
-#
-# # # -----------------------------------------------------------------------------
-#
-# st.write("""
-# We've now centered the map around the latitude and longitude of our first user.
-# However, we still can't see the points on the map.
-# """)
-#
-# st.deck_gl_chart(
-#         viewport={
-#             'latitude': 32,
-#             'longitude': -110,
-#             'zoom': 3
-#         },
+# if interactive_mode:
+#     st.deck_gl_chart(
 #         layers=[{
 #             'type': 'ScatterplotLayer',
 #             'data': users
 #         }]
 #     )
 #
-# st.info("""
-# 4b. Let's draw our points with a larger radius (so that we can see them).
-# Comment out this section and uncomment the next.
-# """)
+#     st.write("""
+#     Ummm... where's our data? Are we zoomed too far out? Take a look at the
+#     first user in the table above. His zip_code is 85711. Look this zipcode up
+#     on Google Maps & see if you can zoom in to see any datapoints in that area.
+#     (Hint: you should be able to see a few red dots if you zoom in enough).
+#     """)
+#
+#     st.info("""
+#     4a. Comment out this section and uncomment the next section.
+#     """)
+#
+# # # -----------------------------------------------------------------------------
+#
+# if interactive_mode:
+#     st.write("""
+#     We've now centered the map around the latitude and longitude of the first
+#     user. However, we still can't see the points on the map.
+#     """)
+#
+#     st.deck_gl_chart(
+#             viewport={
+#                 'latitude': 32,
+#                 'longitude': -110,
+#                 'zoom': 3
+#             },
+#             layers=[{
+#                 'type': 'ScatterplotLayer',
+#                 'data': users
+#             }]
+#         )
+#
+#     st.info("""
+#     4b. Let's draw our points with a larger radius (so that we can see them).
+#     Comment out this section and uncomment the next.
+#     """)
 #
 # # # -----------------------------------------------------------------------------
 #
@@ -191,17 +212,19 @@ Streamlit runs on save. If this doesn't work, click on the report-pane and press
 #         }]
 #     )
 #
-# st.info("""
-# 5. Almost done ... feel free to play with the viewport above to center the map
-# a little better. Once you're done, uncomment the next section.
-# """)
+# if interactive_mode:
+#     st.info("""
+#     5. Almost done ... feel free to play with the viewport above to center the
+#     map a little better. Once you're done, uncomment the next section.
+#     """)
 #
 # # # -----------------------------------------------------------------------------
 #
-# st.info("""
-# 6. Uncomment the remainder of this file to see how we explore the other parts
-# of this dataset. Enjoy!
-# """)
+# if interactive_mode:
+#     st.info("""
+#     6. Uncomment the remainder of this file to see how we explore the other parts
+#     of this dataset. Enjoy!
+#     """)
 #
 # # # -----------------------------------------------------------------------------
 #
@@ -213,7 +236,6 @@ Streamlit runs on save. If this doesn't work, click on the report-pane and press
 # include explanations for these two tables in this report, but do check out
 # the underlying code here.
 # """)
-#
 #
 # st.header('Movies')
 # movie_cols = ['movie_id','movie_title','release_date', 'video_release_date','IMDb_URL','unknown','Action','Adventure','Animation','Childrens','Comedy','Crime','Documentary','Drama','Fantasy','Film-Noir','Horror','Musical','Mystery','Romance','Sci-Fi','Thriller','War' ,'Western']
@@ -278,3 +300,9 @@ Streamlit runs on save. If this doesn't work, click on the report-pane and press
 # })
 #
 # st.info("Check out week2_rec_v0.py for the next part of this guide.")
+#
+# if not interactive_mode:
+#     st.write("""
+#     *If you're viewing this report online, you can check out the underlying code
+#     [here](https://github.com/streamlit/streamlit-examples/blob/master/movie_recs/src/week1_explore.py).*
+#     """)
