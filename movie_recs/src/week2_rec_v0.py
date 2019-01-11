@@ -1,17 +1,12 @@
 # The published output of this file currently lives here:
-# http://share.streamlit.io/0.22.2-26uDd/index.html?id=UVwzayqLtsQmxj9H7bGLXJ
+# http://share.streamlit.io/0.23.0-2EMF1/index.html?id=SvTxtEZSStSez99zVXQwwY
 
 import numpy as np
 import pandas as pd
 import streamlit as st
 from sklearn.metrics.pairwise import cosine_similarity
 
-user_cols = ['user_id','age','gender','occupation','zip_code']
-movie_cols = ['movie_id','movie_title','release_date', 'video_release_date','IMDb_URL','unknown','Action','Adventure','Animation','Childrens','Comedy','Crime','Documentary','Drama','Fantasy','Film-Noir','Horror','Musical','Mystery','Romance ','Sci-Fi','Thriller','War' ,'Western']
-rating_cols = ['user_id', 'item_id', 'rating', 'timestamp']
-users = pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
-movies = pd.read_csv('../data/ml-100k/u.item', sep='|', names=movie_cols, encoding='latin-1')
-ratings = pd.read_csv('../data/ml-100k/u.data', sep='\t', names=rating_cols, encoding='latin-1')
+interactive_mode = True
 
 st.title('Recommendation System v0')
 st.write("""
@@ -28,6 +23,13 @@ using cosine similarity between users. We simply define a user, find
 similar users (via cosine similarity), and recommend 5 movies based on the most
 common liked movies among those similar users.
 """)
+
+user_cols = ['user_id','age','gender','occupation','zip_code']
+movie_cols = ['movie_id','movie_title','release_date', 'video_release_date','IMDb_URL','unknown','Action','Adventure','Animation','Childrens','Comedy','Crime','Documentary','Drama','Fantasy','Film-Noir','Horror','Musical','Mystery','Romance ','Sci-Fi','Thriller','War' ,'Western']
+rating_cols = ['user_id', 'item_id', 'rating', 'timestamp']
+users = pd.read_csv('../data/ml-100k/u.user', sep='|', names=user_cols, encoding='latin-1')
+movies = pd.read_csv('../data/ml-100k/u.item', sep='|', names=movie_cols, encoding='latin-1')
+ratings = pd.read_csv('../data/ml-100k/u.data', sep='\t', names=rating_cols, encoding='latin-1')
 
 st.subheader('User Input')
 st.write("""
@@ -163,3 +165,14 @@ is very sparse. We do not know the rating for most (user, movie) pairs. In the
 next part of this tutorial, we explore approaches where we address this problem
 among others.
 """)
+
+st.write("""
+Check out [week3_iterate.py](https://github.com/streamlit/streamlit-examples/blob/master/movie_recs/src/week3_iterate.py)
+to see how we can improve our recommendation system.
+""")
+
+if not interactive_mode:
+    st.write("""
+    *Viewing this online? You can check out the underlying code
+    [here](https://github.com/streamlit/streamlit-examples/blob/master/movie_recs/src/week2_rec_v0.py).*
+    """)
